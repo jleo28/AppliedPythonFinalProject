@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Prediction Results</title>
+</head>
+<body>
+    <h1>Pokémon Prediction Results</h1>
+
+    <!-- display pokemon stats -->
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Type 1</th>
+            <th>Type 2</th>
+            <th>HP</th>
+            <th>Attack</th>
+            <th>Defense</th>
+            <th>Sp. Atk</th>
+            <th>Sp. Def</th>
+            <th>Speed</th>
+            <th>Total</th>
+            <th>Generation</th>
+            <th>Legendary</th>
+        </tr>
+        <tr>
+            <td>{{ pokemon['Name'] }}</td>
+            <td>{{ pokemon['Type 1'] }}</td>
+            <td>{{ pokemon['Type 2'] }}</td>
+            <td>{{ pokemon['HP'] }}</td>
+            <td>{{ pokemon['Attack'] }}</td>
+            <td>{{ pokemon['Defense'] }}</td>
+            <td>{{ pokemon['Sp. Atk'] }}</td>
+            <td>{{ pokemon['Sp. Def'] }}</td>
+            <td>{{ pokemon['Speed'] }}</td>
+            <td>{{ total }}</td>
+            <td>{{ pokemon['Generation'] }}</td>
+            <td>{{ legendary }}</td>
+        </tr>
+    </table>
+
+    <!-- save button form -->
+    {% if save %}
+    <form action="{{ url_for('save_pokemon') }}" method="post">
+        <input type="hidden" name="name" value="{{ pokemon['Name'] }}">
+        <input type="hidden" name="type1" value="{{ pokemon['Type 1'] }}">
+        <input type="hidden" name="type2" value="{{ pokemon['Type 2'] }}">
+        <input type="hidden" name="hp" value="{{ pokemon['HP'] }}">
+        <input type="hidden" name="attack" value="{{ pokemon['Attack'] }}">
+        <input type="hidden" name="defense" value="{{ pokemon['Defense'] }}">
+        <input type="hidden" name="sp_atk" value="{{ pokemon['Sp. Atk'] }}">
+        <input type="hidden" name="sp_def" value="{{ pokemon['Sp. Def'] }}">
+        <input type="hidden" name="speed" value="{{ pokemon['Speed'] }}">
+        <input type="hidden" name="total" value="{{ total }}">
+        <input type="hidden" name="generation" value="{{ pokemon['Generation'] }}">
+        <input type="hidden" name="legendary" value="{{ legendary }}">
+
+        <!-- save pokemon button -->
+        <button type="submit">Save Pokémon</button>
+    </form>
+    {% endif %}
+
+    <br>
+
+    <!-- model visualizations section -->
+    <h2>Model Visualizations</h2>
+
+    <h3>Linear Regression: Actual vs. Predicted Total</h3>
+    <img src="{{ url_for('static', filename='lr_actual_vs_predicted.png') }}" alt="LR Actual vs Predicted" style="max-width: 500px;">
+    <!-- explains linear regression performance -->
+    <p>This scatter plot displays the actual total stats versus the predicted totals. Close alignment indicates good model performance.</p>
+
+    <h3>Random Forest: Feature Importances</h3>
+    <img src="{{ url_for('static', filename='rf_feature_importances.png') }}" alt="RF Feature Importances" style="max-width: 500px;">
+    <!-- explains feature importance -->
+    <p>This bar chart shows the importance of each feature in predicting legendary status. Higher bars signify greater influence.</p>
+
+    <br>
+
+    <!-- back to home button -->
+    <form action="{{ url_for('home') }}">
+        <button type="submit">Back to Home</button>
+    </form>
+</body>
+</html>

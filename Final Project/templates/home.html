@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find My Pokémon</title>
+</head>
+<body>
+    <h1>Find My Pokémon</h1>
+
+    <!-- short program description -->
+    <p>Discover and explore your favorite Pokémon. Search using various criteria or add new entries to your Pokédex.</p>
+
+    <!-- view my pokedex button -->
+    <form action="{{ url_for('view_pokedex') }}" method="get">
+        <button type="submit">View my Pokédex!</button>
+    </form>
+
+    <hr>
+
+    <!-- form to find pokemon -->
+    <form action="{{ url_for('find_pokemon') }}" method="post">
+        <h3>Search Criteria:</h3>
+
+        <!-- search criteria explanation -->
+        <p>Filter Pokémon based on type, generation, and legendary status.</p>
+
+        <!-- type 1 dropdown -->
+        <label for="type1">Type 1:</label>
+        <select name="type1" id="type1">
+            <option value="">-- Select Type 1 --</option>
+            {% for t in types %}
+                <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- type 2 dropdown -->
+        <label for="type2">Type 2:</label>
+        <select name="type2" id="type2">
+            <option value="">-- Select Type 2 --</option>
+            {% for t in type2 %}
+                <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- generation dropdown -->
+        <label for="generation_find">Generation:</label>
+        <select name="generation" id="generation_find">
+            <option value="">-- Select Generation --</option>
+            <option value="All">All</option>
+            {% for g in generations %}
+                <option value="{{ g }}">{{ g }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- legendary radio buttons -->
+        <label>Legendary:</label><br>
+        <input type="radio" name="legendary" value="yes" id="legendary-yes">
+        <label for="legendary-yes">Yes</label>
+        <input type="radio" name="legendary" value="no" id="legendary-no">
+        <label for="legendary-no">No</label>
+        <br><br>
+
+        <!-- submit find pokemon -->
+        <input type="submit" value="Find My Pokémon!">
+    </form>
+
+    <hr>
+
+    <!-- section add new pokemon -->
+    <h2>Add a New Pokémon</h2>
+    <form action="{{ url_for('add_pokemon') }}" method="post">
+        <!-- add pokemon explanation -->
+        <p>Introduce new Pokémon by providing their details and stats.</p>
+
+        <!-- instruction for integer values -->
+        <p>Please enter integer values for all stat fields.</p>
+
+        <!-- pokemon name -->
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter Pokémon Name" required>
+        <br><br>
+
+        <!-- type 1 selection -->
+        <label for="new_type1">Type 1:</label>
+        <select name="type1" id="new_type1" required>
+            <option value="">-- Select Type 1 --</option>
+            {% for t in types %}
+                <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- type 2 selection -->
+        <label for="new_type2">Type 2:</label>
+        <select name="type2" id="new_type2">
+            <option value="">-- Select Type 2 --</option>
+            {% for t in types %}
+                <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- stats inputs -->
+        <label for="hp">HP:</label>
+        <input type="number" name="hp" id="hp" min="0" placeholder="HP" required>
+        <br><br>
+
+        <label for="attack">Attack:</label>
+        <input type="number" name="attack" id="attack" min="0" placeholder="Attack" required>
+        <br><br>
+
+        <label for="defense">Defense:</label>
+        <input type="number" name="defense" id="defense" min="0" placeholder="Defense" required>
+        <br><br>
+
+        <label for="sp_atk">Sp. Atk:</label>
+        <input type="number" name="sp_atk" id="sp_atk" min="0" placeholder="Sp. Atk" required>
+        <br><br>
+
+        <label for="sp_def">Sp. Def:</label>
+        <input type="number" name="sp_def" id="sp_def" min="0" placeholder="Sp. Def" required>
+        <br><br>
+
+        <label for="speed">Speed:</label>
+        <input type="number" name="speed" id="speed" min="0" placeholder="Speed" required>
+        <br><br>
+
+        <!-- generation selection -->
+        <label for="generation_add">Generation:</label>
+        <select name="generation" id="generation_add" required>
+            <option value="">-- Select Generation --</option>
+            {% for g in generations %}
+                <option value="{{ g }}">{{ g }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- submit add pokemon -->
+        <input type="submit" value="Add Pokémon">
+    </form>
+
+    <hr>
+
+    <!-- search history table -->
+    {% if search_history %}
+        <h2>Search History</h2>
+        <table border="1">
+            <tr>
+                <th>Search</th>
+                <th>Type 1</th>
+                <th>Type 2</th>
+                <th>Generation</th>
+                <th>Legendary</th>
+            </tr>
+            {% for search in search_history %}
+            <tr>
+                <td>
+                    <form action="{{ url_for('search', search_id=search['search_number']) }}" method="get">
+                        <button type="submit">{{ search['search_number'] }}</button>
+                    </form>
+                </td>
+                <td>{{ search['type1'] }}</td>
+                <td>{{ search['type2'] }}</td>
+                <td>{{ search['generation'] }}</td>
+                <td>{{ search['legendary'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <!-- no search history message -->
+        <p>No searches have been made yet.</p>
+    {% endif %}
+</body>
+</html>

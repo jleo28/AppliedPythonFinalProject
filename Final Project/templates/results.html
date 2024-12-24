@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find My Pokémon Results</title>
+</head>
+<body>
+
+    <!-- back to home button -->
+    <form action="{{ url_for('home') }}">
+        <button type="submit">Back to Home</button>
+    </form>
+
+    <br><br>
+
+    <h1>Find My Pokémon Results</h1>
+
+    {% if error %}
+        <!-- display error message -->
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% elif no_results %}
+        <!-- display no results message -->
+        <p style="color: orange; font-weight: bold;">{{ no_results }}</p>
+    {% else %}
+        <!-- display results table -->
+        {% if results %}
+            <table border="1">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Type 1</th>
+                    <th>Type 2</th>
+                    <th>Total</th>
+                    <th>HP</th>
+                    <th>Attack</th>
+                    <th>Defense</th>
+                    <th>Sp. Atk</th>
+                    <th>Sp. Def</th>
+                    <th>Speed</th>
+                    <th>Generation</th>
+                    <th>Legendary</th>
+                </tr>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row['#'] }}</td>
+                    <td>{{ row['Name'] }}</td>
+                    <td>{{ row['Type 1'] }}</td>
+                    <td>{{ row['Type 2'] }}</td>
+                    <td>{{ row['Total'] }}</td>
+                    <td>{{ row['HP'] }}</td>
+                    <td>{{ row['Attack'] }}</td>
+                    <td>{{ row['Defense'] }}</td>
+                    <td>{{ row['Sp. Atk'] }}</td>
+                    <td>{{ row['Sp. Def'] }}</td>
+                    <td>{{ row['Speed'] }}</td>
+                    <td>{{ row['Generation'] }}</td>
+                    <td>{{ 'Yes' if row['Legendary'] else 'No' }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!-- show charts -->
+            <img src="{{ url_for('static', filename='type1_pie.png') }}" alt="Type 1 Pie Chart">
+            <img src="{{ url_for('static', filename='type2_pie.png') }}" alt="Type 2 Pie Chart">
+            <img src="{{ url_for('static', filename='generation_bar.png') }}" alt="Generation Bar Chart">
+        {% endif %}
+    {% endif %}
+
+</body>
+</html>

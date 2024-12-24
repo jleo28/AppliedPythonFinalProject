@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Pokédex</title>
+</head>
+<body>
+    <!-- back to home button -->
+    <form action="{{ url_for('home') }}" method="get">
+        <button type="submit">Back to Home</button>
+    </form>
+
+    <h1>My Pokédex</h1>
+
+    <!-- display pokemon data table -->
+    {% if pokedex %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pokemon in pokedex %}
+                <tr>
+                    <td>{{ pokemon['#'] }}</td>
+                    <td>{{ pokemon['Name'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <!-- no pokemon data message -->
+        <p>No Pokémon data available.</p>
+    {% endif %}
+</body>
+</html>
